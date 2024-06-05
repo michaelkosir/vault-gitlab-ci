@@ -9,6 +9,7 @@ variables:
   VAULT_NAMESPACE: "/"
 
 deploy:
+  when: manual
   stage: deploy
   image: alpine:3
 
