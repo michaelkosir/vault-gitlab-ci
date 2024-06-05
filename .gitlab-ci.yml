@@ -33,10 +33,10 @@ deploy:
         field: data
 
   before_script:
-    - apk add jq
+    - apk add jq aws-cli
 
   script:
-    - |
+    - >
       env | grep API_KEY
       env | grep API_KEY
 
