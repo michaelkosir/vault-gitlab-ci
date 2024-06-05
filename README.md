@@ -16,6 +16,13 @@ Offering: GitLab.com, Self-managed, GitLab Dedicated
 
 <img src="https://docs.gitlab.com/ee/ci/img/gitlab_vault_workflow_v13_4.png">
 
+## Infrastructure Setup
+```
+git clone https://gitlab.com/michaelkosir/vault-gitlab-ci.git
+cd vault-gitlab-ci/tf
+terraform apply
+# update `.gitlab-ci.yml` with `vault_addr` output
+```
 
 ## Vault Setup
 ```shell

@@ -14,7 +14,7 @@ deploy:
 
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: https://example.vault.com
+      aud: "https://vault.example.com"
 
   secrets:
     # vault kv get -field=apikey kv/prod/example
@@ -36,16 +36,15 @@ deploy:
     - apk add jq aws-cli > /dev/null
 
   script:
-    - >
-      env | grep API_KEY || true
-      env | grep API_KEY || true
+    - env | grep API_KEY
+    - env | grep API_KEY
 
-      export AWS_ACCESS_KEY_ID=$(jq -r .access_key <<< $AWS)
-      export AWS_SECRET_ACCESS_KEY=$(jq -r .secret_key <<< $AWS)
-      export AWS_SESSION_TOKEN=$(jq -r .session_token <<< $AWS)
+    - export AWS_ACCESS_KEY_ID=$(jq -r .access_key <<< $AWS)
+    - export AWS_SECRET_ACCESS_KEY=$(jq -r .secret_key <<< $AWS)
+    - export AWS_SESSION_TOKEN=$(jq -r .session_token <<< $AWS)
 
-      env | grep AWS_
+    - env | grep AWS_
 
-      aws sts get-caller-identity
+    - aws sts get-caller-identity
 
-      curl -sH "Authorization: Basic $API_KEY" https://api.fda.gov/food/enforcement.json | jq .results
+    - 'curl -sH "Authorization: Basic $API_KEY" https://api.fda.gov/food/enforcement.json | jq .results'
