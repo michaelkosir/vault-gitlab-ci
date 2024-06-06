@@ -1,8 +1,14 @@
+## Overview
+CI/CD pipelines need to securely access secrets and other sensitive values and authenticate to external services and deploy applications, infrastructure, or other automated processes. HashiCorp Vault is a central system to store and access data, which enables CI/CD pipelines to programmatically push and pull secrets.
 
-## Diagram
+GitLab uses JSON Web Token (JWT) to authenticate with Vault to securely access secrets for CI/CD pipelines. Once authenticated, GitLab can pull static secrets from the KV secrets engine, or dynamic secrets from engines such as the AWS secrets engine.
+
+### Diagram
 <img src="https://docs.gitlab.com/ee/ci/img/gitlab_vault_workflow_v13_4.png">
 
-## Manual
+
+## Gitlab CI
+### Manual
 
 ```yaml
 Tier: Free, Premium, Ultimate
@@ -20,7 +26,7 @@ job:
     - export API_KEY=$(vault kv get -field=apikey kv/prod/example)
 ```
 
-## Native Support
+### Native Support
 GitLab has selected [Vault by HashiCorp](https://www.vaultproject.io/) as the first supported provider, and [KV-V2](https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2) as the first supported secrets engine. Use [ID tokens](https://docs.gitlab.com/ee/ci/yaml/index.html#id_tokens) to [authenticate with Vault](https://developer.hashicorp.com/vault/docs/auth/jwt#jwt-authentication). The [Authenticating and Reading Secrets With HashiCorp Vault](https://docs.gitlab.com/ee/ci/examples/authenticating-with-hashicorp-vault/index.html) tutorial has more details about authenticating with ID tokens. You must [configure your Vault server](configure your Vault server) before you can [use Vault secrets in a CI job](use Vault secrets in a CI job).
 
 ```yaml
@@ -30,16 +36,17 @@ Offering: GitLab.com, Self-managed, GitLab Dedicated
 
 ```yaml
 job:
+  image: alpine:3
   id_tokens:
     VAULT_ID_TOKEN:
       aud: "https://vault.example.com"
   secrets:
     API_KEY:
       file: false
-      vault: prod/example/apikey@kv # vault kv get -field=apikey kv/prod/example
+      vault: prod/example/apikey@kv 
     AWS:
       file: false
-      vault: # vault read -field=data aws/sts/deploy
+      vault:
         engine:
           name: generic
           path: aws
@@ -47,7 +54,8 @@ job:
         field: data
 ```
 
-## Infrastructure Setup
+## Usage
+### Infrastructure Setup
 ```shell
 git clone https://gitlab.com/michaelkosir/vault-gitlab-ci.git
 cd vault-gitlab-ci/tf
@@ -55,9 +63,8 @@ terraform apply
 # update `.gitlab-ci.yml` with `vault_addr` output
 ```
 
-## Vault Setup
+### Vault Setup
 ```shell
-# also add VAULT_ADDR to `gitlab-ci.yml`
 export VAULT_ADDR=$(terraform output -raw vault_addr)
 export VAULT_TOKEN="root"
 

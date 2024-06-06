@@ -3,10 +3,9 @@ stages:
 
 variables:
   AWS_REGION: "us-east-2"
-  VAULT_ADDR: "http://18.217.65.225:8200"
-  VAULT_AUTH_ROLE: "demo"
+  VAULT_ADDR: "http://vault.example.com:8200"
   VAULT_AUTH_PATH: "gitlab"
-  # VAULT_NAMESPACE: "/"
+  VAULT_AUTH_ROLE: "demo"
 
 deploy:
   when: manual
@@ -18,15 +17,21 @@ deploy:
       aud: "https://vault.example.com"
 
   before_script:
+    - echo "Starting `before_script`..."
     - apk add jq aws-cli curl > /dev/null 2>&1
     - wget https://releases.hashicorp.com/vault/1.16.3/vault_1.16.3_linux_amd64.zip > /dev/null 2>&1
     - unzip vault_1.16.3_linux_amd64.zip vault -d /usr/local/bin/ > /dev/null 2>&1
 
   script:
+    - echo "Starting `script`..."
+    # login to Vault
     - export VAULT_TOKEN=$(vault write -field=token auth/$VAULT_AUTH_PATH/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)
+
+    # pull secrets
     - export API_KEY="$(vault kv get -field=apikey kv/prod/example)"
     - export AWS_CREDS="$(vault read -format=json -field=data aws/sts/deploy)"
 
+    # use secrets
     - export AWS_ACCESS_KEY_ID=$(echo $AWS_CREDS | jq -r .access_key)
     - export AWS_SECRET_ACCESS_KEY=$(echo $AWS_CREDS | jq -r .secret_key)
     - export AWS_SESSION_TOKEN=$(echo $AWS_CREDS | jq -r .session_token)
