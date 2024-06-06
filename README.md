@@ -80,7 +80,7 @@ vault secrets enable aws
 vault write -f aws/config/root
 
 vault write aws/roles/deploy \
-  credential_type=assumed_role
+  credential_type=assumed_role \
   role_arns=$(terraform output -raw role_arn)
 
 # JWT Auth
