@@ -9,12 +9,6 @@ GitLab uses JSON Web Token (JWT) to authenticate with Vault to securely access s
 
 ## Gitlab CI
 ### Manual
-
-```yaml
-Tier: Free, Premium, Ultimate
-Offering: GitLab.com, Self-managed, GitLab Dedicated
-```
-
 ```yaml
 job:
   image: hashicorp/vault:1.16
@@ -31,7 +25,6 @@ GitLab has selected [Vault by HashiCorp](https://www.vaultproject.io/) as the fi
 
 ```yaml
 Tier: Premium, Ultimate
-Offering: GitLab.com, Self-managed, GitLab Dedicated
 ```
 
 ```yaml
