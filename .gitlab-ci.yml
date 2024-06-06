@@ -18,15 +18,13 @@ deploy:
       aud: "https://vault.example.com"
 
   secrets:
-    # vault kv get -field=apikey kv/prod/example
     API_KEY:
       file: false
-      vault: prod/example/apikey@kv
+      vault: prod/example/apikey@kv # vault kv get -field=apikey kv/prod/example
 
-    # vault read -field=data aws/sts/deploy
     AWS:
       file: false
-      vault:
+      vault: # vault read -field=data aws/sts/deploy
         engine:
           name: generic
           path: aws
