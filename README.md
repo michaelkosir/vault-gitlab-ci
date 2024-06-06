@@ -57,8 +57,9 @@ terraform apply
 
 ## Vault Setup
 ```shell
+# also add VAULT_ADDR to `gitlab-ci.yml`
 export VAULT_ADDR=$(terraform output -raw vault_addr)
-export VAULTTOKEN="root"
+export VAULT_TOKEN="root"
 
 # Policy
 vault policy write example - <<EOF
