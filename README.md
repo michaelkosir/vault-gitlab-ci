@@ -57,6 +57,9 @@ terraform apply
 
 ## Vault Setup
 ```shell
+export VAULT_ADDR=$(terraform output -raw vault_addr)
+export VAULTTOKEN="root"
+
 # Policy
 vault policy write example - <<EOF
 path "kv/data/prod/example" {
@@ -78,14 +81,14 @@ vault write -f aws/config/root
 
 vault write aws/roles/deploy \
   credential_type=assumed_role
-  role_arns=$(terraform output -r role_arn)
+  role_arns=$(terraform output -raw role_arn)
 
 # JWT Auth
 export GITLAB_PROJECT_ID="..."
 
 vault auth enable -path=gitlab jwt
 
-vault write auth/jwt/config \
+vault write auth/gitlab/config \
   oidc_discovery_url="https://gitlab.com" \
   bound_issuer="https://gitlab.com"
 
