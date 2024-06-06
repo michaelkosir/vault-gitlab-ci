@@ -59,7 +59,7 @@ terraform apply
 ### Vault Setup
 ```shell
 export VAULT_ADDR=$(terraform output -raw vault_addr)
-export VAULT_TOKEN="root"
+export VAULT_TOKEN=$(terraform output -raw vault_token)
 
 # Policy
 vault policy write example - <<EOF
