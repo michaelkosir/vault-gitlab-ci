@@ -99,6 +99,7 @@ vault write auth/gitlab/role/demo - <<EOF
   "token_ttl": 300,
   "token_max_ttl": 600,
   "user_claim": "project_id",
+  "bound_audiences": ["https://vault.example.com"],
   "bound_claims": {
     "project_id": "$GITLAB_PROJECT_ID",
     "ref": "main",
@@ -106,6 +107,5 @@ vault write auth/gitlab/role/demo - <<EOF
   }
 }
 EOF
-
 
 ```

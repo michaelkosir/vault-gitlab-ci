@@ -6,7 +6,7 @@ variables:
   VAULT_SERVER_URL: "http://18.217.65.225:8200"
   VAULT_AUTH_ROLE: "demo"
   VAULT_AUTH_PATH: "gitlab"
-  VAULT_NAMESPACE: "/"
+  # VAULT_NAMESPACE: "/"
 
 deploy:
   when: manual
@@ -15,7 +15,7 @@ deploy:
 
   id_tokens:
     VAULT_ID_TOKEN:
-      aud: "http://18.217.65.225"
+      aud: "https://vault.example.com"
 
   secrets:
     API_KEY:
@@ -32,9 +32,9 @@ deploy:
         field: data
 
   before_script:
-    - apk add jq aws-cli > /dev/null
-    - wget https://releases.hashicorp.com/vault/1.16.3/vault_1.16.3_linux_amd64.zip > /dev/null
-    - unzip vault_1.16.3_linux_amd64.zip vault -d /usr/local/bin/ > /dev/null
+    - apk add jq aws-cli > /dev/null 2>&1
+    - wget https://releases.hashicorp.com/vault/1.16.3/vault_1.16.3_linux_amd64.zip > /dev/null 2>&1
+    - unzip vault_1.16.3_linux_amd64.zip vault -d /usr/local/bin/ > /dev/null 2>&1
 
   script:
     # Manual
