@@ -44,7 +44,6 @@ job:
           name: generic
           path: aws
         path: sts/deploy
-        field: data
 ```
 
 ## Usage
