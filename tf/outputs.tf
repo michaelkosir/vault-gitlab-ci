@@ -6,7 +6,6 @@ output "vault_token" {
   value = random_uuid.this.result
 }
 
-
 output "role_arn" {
   value = aws_iam_role.gitlab.arn
 }

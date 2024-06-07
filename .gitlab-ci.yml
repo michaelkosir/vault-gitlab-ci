@@ -26,6 +26,9 @@ deploy:
     - wget https://releases.hashicorp.com/vault/1.16.3/vault_1.16.3_linux_amd64.zip > /dev/null 2>&1
     - unzip vault_1.16.3_linux_amd64.zip vault -d /usr/local/bin/ > /dev/null 2>&1
 
+    # create alias for output
+    - alias mask="sed -E 's/[0-9]{12}/012345678901/g'"
+
   script:
     - echo "Starting `script`..."
 
@@ -41,5 +44,5 @@ deploy:
     - export AWS_SECRET_ACCESS_KEY=$(echo $AWS_CREDS | jq -r .secret_key)
     - export AWS_SESSION_TOKEN=$(echo $AWS_CREDS | jq -r .session_token)
 
-    - aws sts get-caller-identity
+    - aws sts get-caller-identity | mask
     - 'curl -sH "Authorization: Basic $API_KEY" https://api.fda.gov/food/enforcement.json | jq .results'
