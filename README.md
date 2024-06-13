@@ -13,10 +13,10 @@ GitLab uses JSON Web Token (JWT) to authenticate with Vault to securely access s
 job:
   image: hashicorp/vault:1.16
   id_tokens:
-    VAULT_ID_TOKEN:
+    VAULT_JWT:
       aud: https://vault.example.com
   script:
-    - export VAULT_TOKEN=$(vault write -field=token auth/gitlab/login role=example jwt=$VAULT_ID_TOKEN)
+    - export VAULT_TOKEN=$(vault write -field=token auth/gitlab/login role=example jwt=$VAULT_JWT)
     - export API_KEY=$(vault kv get -field=apikey kv/prod/example)
 ```
 
@@ -31,7 +31,7 @@ Tier: Premium, Ultimate
 job:
   image: alpine:3
   id_tokens:
-    VAULT_ID_TOKEN:
+    VAULT_JWT:
       aud: "https://vault.example.com"
   secrets:
     API_KEY:

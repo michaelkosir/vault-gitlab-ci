@@ -13,7 +13,7 @@ deploy:
   image: alpine:3
 
   id_tokens:
-    VAULT_ID_TOKEN:
+    VAULT_JWT:
       aud: "https://vault.example.com"
 
   before_script:
@@ -33,7 +33,7 @@ deploy:
     - echo "Starting `script`..."
 
     # login to Vault
-    - export VAULT_TOKEN=$(vault write -field=token auth/$VAULT_AUTH_PATH/login role=$VAULT_AUTH_ROLE jwt=$VAULT_ID_TOKEN)
+    - export VAULT_TOKEN=$(vault write -field=token auth/$VAULT_AUTH_PATH/login role=$VAULT_AUTH_ROLE jwt=$VAULT_JWT)
 
     # pull secrets
     - export API_KEY="$(vault kv get -field=apikey kv/prod/example)"
