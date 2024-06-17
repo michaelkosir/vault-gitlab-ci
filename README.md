@@ -4,8 +4,9 @@ CI/CD pipelines need to securely access secrets and other sensitive values and a
 GitLab uses JSON Web Token (JWT) to authenticate with Vault to securely access secrets for CI/CD pipelines. Once authenticated, GitLab can pull static secrets from the KV secrets engine, or dynamic secrets from engines such as the AWS secrets engine.
 
 ### Diagram
-<img src="https://docs.gitlab.com/ee/ci/img/gitlab_vault_workflow_v13_4.png">
-
+<p align="center">
+  <img src="./img/vault-gitlab-ci.png">
+</p>
 
 ## Gitlab CI
 ### Manual
