@@ -27,7 +27,7 @@ deploy:
     - unzip vault_1.16.3_linux_amd64.zip vault -d /usr/local/bin/ > /dev/null 2>&1
 
     # create alias for output
-    - alias mask="sed -E 's/[0-9]{12}/012345678901/g'"
+    - alias mask="sed -E 's/[0-9]{12}/************/g'"
 
   script:
     - echo "Starting `script`..."
