@@ -53,15 +53,14 @@ job:
 git clone https://gitlab.com/michaelkosir/vault-gitlab-ci.git
 cd vault-gitlab-ci/tf
 terraform apply
-# update `.gitlab-ci.yml` with `vault_addr` output
+export VAULT_ADDR=$(terraform output -raw vault_addr)
+export VAULT_TOKEN=$(terraform output -raw vault_token)
+export AWS_ROLE_ARN=$(terraform output -raw role_arn)
+export GITLAB_PROJECT_ID="58552645"
 ```
 
 ### Vault Setup
 ```shell
-export VAULT_ADDR=$(terraform output -raw vault_addr)
-export VAULT_TOKEN=$(terraform output -raw vault_token)
-export GITLAB_PROJECT_ID="58552645"
-
 # Policy
 vault policy write example - <<EOF
 path "kv/data/prod/example" {
@@ -83,7 +82,7 @@ vault write -f aws/config/root
 
 vault write aws/roles/deploy \
   credential_type=assumed_role \
-  role_arns=$(terraform output -raw role_arn)
+  role_arns="$AWS_ROLE_ARN"
 
 # JWT Auth
 vault auth enable -path=gitlab jwt
@@ -108,4 +107,6 @@ vault write auth/gitlab/role/demo - <<EOF
 }
 EOF
 
+# then go to GitLab and update
+# `.gitlab-ci.yml` with Vault Address
 ```
