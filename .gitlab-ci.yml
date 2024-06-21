@@ -3,7 +3,7 @@ stages:
 
 variables:
   AWS_REGION: "us-east-2"
-  VAULT_ADDR: "http://vault.example.com:8200"
+  VAULT_ADDR: "http://18.218.234.150:8200"
   VAULT_AUTH_PATH: "gitlab"
   VAULT_AUTH_ROLE: "demo"
 
