@@ -60,6 +60,7 @@ terraform apply
 ```shell
 export VAULT_ADDR=$(terraform output -raw vault_addr)
 export VAULT_TOKEN=$(terraform output -raw vault_token)
+export GITLAB_PROJECT_ID="58552645"
 
 # Policy
 vault policy write example - <<EOF
@@ -85,8 +86,6 @@ vault write aws/roles/deploy \
   role_arns=$(terraform output -raw role_arn)
 
 # JWT Auth
-export GITLAB_PROJECT_ID="..."
-
 vault auth enable -path=gitlab jwt
 
 vault write auth/gitlab/config \
