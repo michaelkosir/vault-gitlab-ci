@@ -97,7 +97,7 @@ vault write auth/gitlab/role/demo - <<EOF
   "policies": ["example"],
   "token_ttl": 300,
   "token_max_ttl": 600,
-  "user_claim": "project_id",
+  "user_claim": "user_email",
   "bound_audiences": ["https://vault.example.com"],
   "bound_claims": {
     "project_id": "$GITLAB_PROJECT_ID",
